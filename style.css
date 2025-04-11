@@ -18,8 +18,9 @@ body {
   flex-direction: column;
   background-color: #262626;
   display: flex;
-  height: 600px;
-  width: 430px;
+  height: 550px;
+  width: 400px;
+  border-radius: 20px;
 }
 
 .display {
@@ -28,26 +29,55 @@ body {
   margin: 20px 20px 5px 20px;
   align-self: center;
   background-color: rgb(137, 152, 85);
-  border-radius: 5%;
+  border-radius: 10px;
 }
 
-.button,
 button {
   background-color: rgb(43, 43, 51);
+  font-size: 16px;
+  border-radius: 10px;
   color: rgb(227, 221, 221);
-  width: 50px;
-  height: 50px;
-  margin: 5px;
+  width: 60px;
+  height: 60px;
+  margin: 7px;
 }
 .buttons {
-  margin-top: 10px;
+  display: flex;
   margin: 10px 20px 30px 20px;
-  height: 100%;
+  height: 450px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.block-one {
+  justify-content: flex-end;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  height: 300px;
+}
+.block-two {
+  justify-content: end;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  height: 400px;
+}
+
+.clear {
+  display: flex;
+  flex-direction: row;
+  height: fit-content;
+}
+
+#plus {
+  height: 135px;
 }
 
 #clear {
   background-color: rgb(238, 43, 43);
-  width: 100px;
+  width: 150px;
 }
 #equal {
   background-color: rgb(66, 166, 219);
