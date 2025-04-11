@@ -3,6 +3,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Source Code Pro", monospace;
 }
 
 html {
@@ -25,16 +26,20 @@ body {
 }
 
 .display {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  font-size: 25px;
+  font-weight: 200px;
   width: 360px;
   height: 100px;
+  padding: 10px;
   margin: 20px 20px 5px 20px;
-  align-self: center;
   background-color: rgb(137, 152, 85);
   border-radius: 10px;
 }
 
 button {
-  font-family: "Source Code Pro", monospace;
   background-color: rgb(43, 43, 51);
   font-size: 16px;
   border-radius: 10px;
