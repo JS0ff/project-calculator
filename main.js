@@ -17,7 +17,7 @@ let calcSecondNumber;
 let calcOperator;
 
 //Function that takes users data and gives the result based on operator
-function operation(calcOperator, calcFirstNumber, calcSecondNumber) {
+function operate(calcOperator, calcFirstNumber, calcSecondNumber) {
   switch (calcOperator) {
     case "+":
       return add(calcFirstNumber, calcSecondNumber);
@@ -30,19 +30,41 @@ function operation(calcOperator, calcFirstNumber, calcSecondNumber) {
   }
 }
 
-let displayNumber = document.querySelector(".display");
+let calcDisplay = document.querySelector(".display");
 const buttons = document.querySelectorAll("button");
-buttons.forEach((element) => {
-  element.addEventListener("click", function (e) {
-    console.log(typeof e.target.textContent);
-    if (Number(e.target.textContent)) {
-      displayNumber.textContent += e.target.textContent;
-    } else if (e.target.textContent === "0" || e.target.textContent === "00") {
-      displayNumber.textContent += e.target.textContent;
-    }
-  });
-});
-// buttonZero.addEventListener("click", function (e) {
-//   console.log(e.target.textContent);
-//   displayNumber.textContent += "0";
-// });
+
+function inputUserNum() {
+  calcDisplay.textContent = "";
+  for (const element of buttons) {
+    element.addEventListener("click", function () {
+      if (
+        calcOperator &&
+        (Number(element.textContent) ||
+          element.textContent === "0" ||
+          element.textContent === "00")
+      ) {
+        calcDisplay.textContent += element.textContent;
+        calcSecondNumber = calcDisplay.textContent;
+      } else if (
+        Number(element.textContent) ||
+        element.textContent === "0" ||
+        element.textContent === "00"
+      ) {
+        calcDisplay.textContent += element.textContent;
+        calcFirstNumber = calcDisplay.textContent;
+      } else if (
+        element.textContent === "+" ||
+        element.textContent === "-" ||
+        element.textContent === "*" ||
+        element.textContent === "/"
+      ) {
+        calcOperator = element.textContent;
+        calcDisplay.textContent = "";
+      } else if (element.textContent === "=") {
+        console.log(operate(calcOperator, calcFirstNumber, calcSecondNumber));
+      }
+    });
+  }
+}
+
+inputUserNum();
