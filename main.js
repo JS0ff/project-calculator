@@ -29,3 +29,16 @@ function operation(calcOperator, calcFirstNumber, calcSecondNumber) {
       return divide(calcFirstNumber, calcSecondNumber);
   }
 }
+
+let displayNumber = document.querySelector(".display");
+const buttons = document.querySelectorAll("button");
+buttons.forEach((element) => {
+  element.addEventListener("click", function (e) {
+    console.log(e.target.textContent);
+    displayNumber.textContent += e.target.textContent;
+  });
+});
+// buttonZero.addEventListener("click", function (e) {
+//   console.log(e.target.textContent);
+//   displayNumber.textContent += "0";
+// });

@@ -17,6 +17,7 @@ body {
   background-color: rgb(26, 26, 26);
 }
 .calculator {
+  border: solid 2px rgb(141, 141, 149);
   flex-direction: column;
   background-color: #262626;
   display: flex;
@@ -58,15 +59,15 @@ button {
 }
 
 .block-one {
-  justify-content: flex-end;
   display: flex;
+  justify-content: flex-end;
   flex-wrap: wrap;
   flex-direction: column;
   height: 300px;
 }
 .block-two {
-  justify-content: end;
   display: flex;
+  justify-content: end;
   flex-wrap: wrap;
   flex-direction: column;
   height: 400px;
