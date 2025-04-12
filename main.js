@@ -34,8 +34,12 @@ let displayNumber = document.querySelector(".display");
 const buttons = document.querySelectorAll("button");
 buttons.forEach((element) => {
   element.addEventListener("click", function (e) {
-    console.log(e.target.textContent);
-    displayNumber.textContent += e.target.textContent;
+    console.log(typeof e.target.textContent);
+    if (Number(e.target.textContent)) {
+      displayNumber.textContent += e.target.textContent;
+    } else if (e.target.textContent === "0" || e.target.textContent === "00") {
+      displayNumber.textContent += e.target.textContent;
+    }
   });
 });
 // buttonZero.addEventListener("click", function (e) {
