@@ -61,7 +61,14 @@ function inputUserNum() {
         calcOperator = element.textContent;
         calcDisplay.textContent = "";
       } else if (element.textContent === "=") {
+        calcFirstNumber = Number(calcFirstNumber);
+        calcSecondNumber = Number(calcSecondNumber);
         console.log(operate(calcOperator, calcFirstNumber, calcSecondNumber));
+        calcDisplay.textContent = operate(
+          calcOperator,
+          calcFirstNumber,
+          calcSecondNumber
+        );
       }
     });
   }
