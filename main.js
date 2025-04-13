@@ -41,11 +41,13 @@ function inputUserNum() {
     element.addEventListener("click", function () {
       //If there is already value in calcFirstNumber input calcSecondNumber
       if (
+        //If operator has a value skip inputting data to the first user number
         calcOperator &&
         (Number(element.textContent) ||
           element.textContent === "0" ||
           element.textContent === "00")
       ) {
+        // if second user number has empty string
         if (calcSecondNumber === "") {
           calcDisplay.textContent = "";
         }
@@ -90,12 +92,21 @@ function inputUserNum() {
       }
       // If the user press "=" display the result
       else if (element.textContent === "=") {
+        if (calcOperator === "/" && calcSecondNumber === "0") {
+          alert("Error! Do not divide by zero");
+          calcDisplay.textContent = "";
+          calcFirstNumber = "";
+          calcSecondNumber = "";
+          calcOperator = "";
+        }
         calcDisplay.textContent = operate(
           calcOperator,
           calcFirstNumber,
           calcSecondNumber
         );
-      } else if (element.textContent === "C") {
+      }
+      // Clear Button
+      else if (element.textContent === "C") {
         calcDisplay.textContent = "";
         calcFirstNumber = "";
         calcSecondNumber = "";
