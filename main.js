@@ -95,6 +95,11 @@ function inputUserNum() {
           calcFirstNumber,
           calcSecondNumber
         );
+      } else if (element.textContent === "C") {
+        calcDisplay.textContent = "";
+        calcFirstNumber = "";
+        calcSecondNumber = "";
+        calcOperator = "";
       }
     });
   }
