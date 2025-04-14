@@ -1,14 +1,14 @@
 function add(a, b) {
-  return a + b;
+  return Math.round((a + b) * 1000) / 1000;
 }
 function subtract(a, b) {
-  return a - b;
+  return Math.round((a - b) * 1000) / 1000;
 }
 function multiply(a, b) {
-  return a * b;
+  return Math.round(a * b * 1000) / 1000;
 }
 function divide(a, b) {
-  return a / b;
+  return Math.round((a / b) * 1000000) / 1000000;
 }
 
 //Save the user's operation input data
@@ -75,9 +75,6 @@ function inputUserNum() {
         );
         calcFirstNumber = calcDisplay.textContent;
         calcSecondNumber = "";
-
-        console.log(calcFirstNumber);
-        console.log(calcSecondNumber);
         // calcFirstNumber = Number(calcDisplay.textContent);
         calcOperator = element.textContent;
       } else if (
@@ -92,18 +89,24 @@ function inputUserNum() {
       }
       // If the user press "=" display the result
       else if (element.textContent === "=") {
-        if (calcOperator === "/" && calcSecondNumber === "0") {
+        //Check if the user wants to divide by zero
+        if (
+          calcOperator === "/" &&
+          (calcSecondNumber === "0" || calcSecondNumber === "00")
+        ) {
           alert("Error! Do not divide by zero");
           calcDisplay.textContent = "";
           calcFirstNumber = "";
           calcSecondNumber = "";
           calcOperator = "";
+        } else {
+          console.log(calcFirstNumber, calcOperator, calcSecondNumber);
+          calcDisplay.textContent = operate(
+            calcOperator,
+            calcFirstNumber,
+            calcSecondNumber
+          );
         }
-        calcDisplay.textContent = operate(
-          calcOperator,
-          calcFirstNumber,
-          calcSecondNumber
-        );
       }
       // Clear Button
       else if (element.textContent === "C") {
@@ -112,6 +115,7 @@ function inputUserNum() {
         calcSecondNumber = "";
         calcOperator = "";
       }
+      console.log(calcFirstNumber, calcOperator, calcSecondNumber);
     });
   }
 }
