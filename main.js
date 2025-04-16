@@ -16,6 +16,8 @@ let calcFirstNumber;
 let calcSecondNumber;
 let calcOperator;
 
+const operators = ["+", "-", "*", "/"];
+
 //Function that takes users data and gives the result based on operator
 function operate(calcOperator, calcFirstNumber, calcSecondNumber) {
   calcFirstNumber = Number(calcFirstNumber);
@@ -30,6 +32,16 @@ function operate(calcOperator, calcFirstNumber, calcSecondNumber) {
     case "/":
       return divide(calcFirstNumber, calcSecondNumber);
   }
+}
+
+//Clears all data
+function clearUserInputData() {
+  return (
+    (calcDisplay.textContent = ""),
+    (calcFirstNumber = ""),
+    (calcSecondNumber = ""),
+    (calcOperator = "")
+  );
 }
 
 let calcDisplay = document.querySelector(".display");
@@ -48,7 +60,6 @@ function inputUserNum() {
         .filter((item) => item === ".");
       if (dotsAmount.length === 1) {
         dotBtn.removeEventListener("click", function () {});
-        dotBtn.style.backgroundColor = "#3C3D37";
       } else if (element.textContent === ".") {
         calcDisplay.textContent += ".";
       }
@@ -131,10 +142,7 @@ function inputUserNum() {
             ) /
               1000000
         ) {
-          calcDisplay.textContent = "";
-          calcOperator = "";
-          calcFirstNumber = "";
-          calcSecondNumber = "";
+          clearUserInputData();
           calcDisplay.textContent += element.textContent;
           calcFirstNumber = calcDisplay.textContent;
         } else {
@@ -153,19 +161,10 @@ function inputUserNum() {
         //Alert if the user continues to press operator button
         calcOperator &&
         !calcSecondNumber &&
-        (element.textContent === "+" ||
-          element.textContent === "-" ||
-          element.textContent === "*" ||
-          element.textContent === "/")
+        operators.includes(element.textContent)
       ) {
         alert("Please input the second number");
-      } else if (
-        calcOperator &&
-        (element.textContent === "+" ||
-          element.textContent === "-" ||
-          element.textContent === "*" ||
-          element.textContent === "/")
-      ) {
+      } else if (calcOperator && operators.includes(element.textContent)) {
         calcDisplay.textContent = operate(
           calcOperator,
           calcFirstNumber,
@@ -177,10 +176,7 @@ function inputUserNum() {
         calcOperator = element.textContent;
       } else if (
         //Save user's operator
-        element.textContent === "+" ||
-        element.textContent === "-" ||
-        element.textContent === "*" ||
-        element.textContent === "/"
+        operators.includes(element.textContent)
       ) {
         calcOperator = element.textContent;
         calcDisplay.textContent = "";
@@ -190,10 +186,7 @@ function inputUserNum() {
         //Check if the user wants to divide by zero
         if (calcOperator === "/" && calcSecondNumber === "0") {
           alert("Error! Do not divide by zero");
-          calcDisplay.textContent = "";
-          calcFirstNumber = "";
-          calcSecondNumber = "";
-          calcOperator = "";
+          clearUserInputData();
         } else {
           console.log(calcFirstNumber, calcOperator, calcSecondNumber);
           calcDisplay.textContent = operate(
@@ -205,10 +198,7 @@ function inputUserNum() {
       }
       // Clear Button
       else if (element.textContent === "C") {
-        calcDisplay.textContent = "";
-        calcFirstNumber = "";
-        calcSecondNumber = "";
-        calcOperator = "";
+        clearUserInputData();
       }
       console.log(calcFirstNumber, calcOperator, calcSecondNumber);
     });
