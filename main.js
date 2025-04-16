@@ -35,15 +35,21 @@ function operate(calcOperator, calcFirstNumber, calcSecondNumber) {
 let calcDisplay = document.querySelector(".display");
 const buttons = document.querySelectorAll("button");
 
+const dotBtn = document.querySelector("#dot");
+
 function inputUserNum() {
   calcDisplay.textContent = "";
   for (const element of buttons) {
     element.addEventListener("click", function () {
-      //   if (element.textContent === ".") {
-      //     calcDisplay.textContent += ".";
-      //   }
-      //Alert if the user continues to press operator button
-
+      dotsAmount = calcDisplay.textContent
+        .split("")
+        .filter((item) => item === ".");
+      if (dotsAmount.length === 1) {
+        dotBtn.removeEventListener("click", function () {});
+        dotBtn.style.backgroundColor = "#3C3D37";
+      } else if (element.textContent === ".") {
+        calcDisplay.textContent += ".";
+      }
       //If there is already value in calcFirstNumber input calcSecondNumber
       if (
         //If operator has a value skip inputting data to the first user number
@@ -92,6 +98,7 @@ function inputUserNum() {
         calcDisplay.textContent += element.textContent;
         calcFirstNumber = calcDisplay.textContent;
       } else if (
+        //Alert if the user continues to press operator button
         calcOperator &&
         !calcSecondNumber &&
         (element.textContent === "+" ||
