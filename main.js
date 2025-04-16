@@ -44,6 +44,27 @@ function clearUserInputData() {
   );
 }
 
+function checkAllOperation() {
+  if (
+    calcDisplay.textContent ==
+      Number(calcSecondNumber) + Number(calcFirstNumber) ||
+    calcDisplay.textContent ==
+      Number(calcFirstNumber) - Number(calcSecondNumber) ||
+    calcDisplay.textContent ==
+      Number(calcSecondNumber) * Number(calcFirstNumber) ||
+    calcDisplay.textContent ==
+      // Operate function() rounds up sum, it will not read the displayed number as similar without round up
+      Math.round(
+        (Number(calcFirstNumber) / Number(calcSecondNumber)) * 1000000
+      ) /
+        1000000
+  ) {
+    return true;
+  } else {
+    false;
+  }
+}
+
 let calcDisplay = document.querySelector(".display");
 const buttons = document.querySelectorAll("button");
 
@@ -58,30 +79,18 @@ function inputUserNum() {
       dotsAmount = calcDisplay.textContent
         .split("")
         .filter((item) => item === ".");
-      if (dotsAmount.length === 1) {
-        dotBtn.removeEventListener("click", function () {});
-      } else if (element.textContent === ".") {
-        calcDisplay.textContent += ".";
-      }
 
+      if (dotsAmount.length === 1)
+        dotBtn.removeEventListener("click", function () {});
+      else if (element.textContent === "." && !checkAllOperation())
+        calcDisplay.textContent += ".";
+
+      // If backspace button clicked, check if which number this is and
+      // check if there is already dot inside the number.
       if (
         element.textContent === "␈" &&
         !calcOperator &&
-        (!(
-          calcDisplay.textContent ==
-            Number(calcSecondNumber) + Number(calcFirstNumber) ||
-          calcDisplay.textContent ==
-            Number(calcFirstNumber) - Number(calcSecondNumber) ||
-          calcDisplay.textContent ==
-            Number(calcSecondNumber) * Number(calcFirstNumber) ||
-          calcDisplay.textContent ==
-            // Operate function() rounds up sum, it will not read the displayed number as similar without round up
-            Math.round(
-              (Number(calcFirstNumber) / Number(calcSecondNumber)) * 1000000
-            ) /
-              1000000
-        ) ||
-          !calcSecondNumber)
+        (!checkAllOperation() || !calcSecondNumber)
       ) {
         calcDisplay.textContent = calcDisplay.textContent
           .split("")
@@ -91,20 +100,7 @@ function inputUserNum() {
       } else if (
         element.textContent === "␈" &&
         calcOperator &&
-        !(
-          calcDisplay.textContent ==
-            Number(calcSecondNumber) + Number(calcFirstNumber) ||
-          calcDisplay.textContent ==
-            Number(calcFirstNumber) - Number(calcSecondNumber) ||
-          calcDisplay.textContent ==
-            Number(calcSecondNumber) * Number(calcFirstNumber) ||
-          calcDisplay.textContent ==
-            // Operate function() rounds up sum, it will not read the displayed number as similar without round up
-            Math.round(
-              (Number(calcFirstNumber) / Number(calcSecondNumber)) * 1000000
-            ) /
-              1000000
-        )
+        !checkAllOperation()
       ) {
         calcDisplay.textContent = calcDisplay.textContent
           .split("")
@@ -128,20 +124,8 @@ function inputUserNum() {
         }
         // If first number and second number sum will be equal to displayed number,
         // remove all data from display and save the current sum to the first number
-        else if (
-          calcDisplay.textContent ==
-            Number(calcSecondNumber) + Number(calcFirstNumber) ||
-          calcDisplay.textContent ==
-            Number(calcFirstNumber) - Number(calcSecondNumber) ||
-          calcDisplay.textContent ==
-            Number(calcSecondNumber) * Number(calcFirstNumber) ||
-          calcDisplay.textContent ==
-            // Operate function() rounds up sum, it will not read the displayed number as similar without round up
-            Math.round(
-              (Number(calcFirstNumber) / Number(calcSecondNumber)) * 1000000
-            ) /
-              1000000
-        ) {
+        else if (checkAllOperation()) {
+          console.log("here");
           clearUserInputData();
           calcDisplay.textContent += element.textContent;
           calcFirstNumber = calcDisplay.textContent;
@@ -176,7 +160,8 @@ function inputUserNum() {
         calcOperator = element.textContent;
       } else if (
         //Save user's operator
-        operators.includes(element.textContent)
+        operators.includes(element.textContent) &&
+        calcFirstNumber
       ) {
         calcOperator = element.textContent;
         calcDisplay.textContent = "";
@@ -197,9 +182,7 @@ function inputUserNum() {
         }
       }
       // Clear Button
-      else if (element.textContent === "C") {
-        clearUserInputData();
-      }
+      else if (element.textContent === "C") clearUserInputData();
       console.log(calcFirstNumber, calcOperator, calcSecondNumber);
     });
   }
