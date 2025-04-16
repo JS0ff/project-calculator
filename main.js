@@ -39,8 +39,19 @@ function inputUserNum() {
   calcDisplay.textContent = "";
   for (const element of buttons) {
     element.addEventListener("click", function () {
-      //If there is already value in calcFirstNumber input calcSecondNumber
+      //Alert if the user continues to press operator button
       if (
+        calcOperator &&
+        (element.textContent === "+" ||
+          element.textContent === "-" ||
+          element.textContent === "*" ||
+          element.textContent === "/")
+      ) {
+        alert("Please input the second number");
+      }
+
+      //If there is already value in calcFirstNumber input calcSecondNumber
+      else if (
         //If operator has a value skip inputting data to the first user number
         // and input the value to the second number
         calcOperator &&
