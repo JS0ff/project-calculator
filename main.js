@@ -41,6 +41,8 @@ function inputUserNum() {
   calcDisplay.textContent = "";
   for (const element of buttons) {
     element.addEventListener("click", function () {
+      // Checks for dots in a display number,
+      // if finds one deletes event listener and colors the dot button to the gray
       dotsAmount = calcDisplay.textContent
         .split("")
         .filter((item) => item === ".");
@@ -50,8 +52,58 @@ function inputUserNum() {
       } else if (element.textContent === ".") {
         calcDisplay.textContent += ".";
       }
-      //If there is already value in calcFirstNumber input calcSecondNumber
+
       if (
+        element.textContent === "␈" &&
+        !calcOperator &&
+        (!(
+          calcDisplay.textContent ==
+            Number(calcSecondNumber) + Number(calcFirstNumber) ||
+          calcDisplay.textContent ==
+            Number(calcFirstNumber) - Number(calcSecondNumber) ||
+          calcDisplay.textContent ==
+            Number(calcSecondNumber) * Number(calcFirstNumber) ||
+          calcDisplay.textContent ==
+            // Operate function() rounds up sum, it will not read the displayed number as similar without round up
+            Math.round(
+              (Number(calcFirstNumber) / Number(calcSecondNumber)) * 1000000
+            ) /
+              1000000
+        ) ||
+          !calcSecondNumber)
+      ) {
+        calcDisplay.textContent = calcDisplay.textContent
+          .split("")
+          .slice(0, length - 1)
+          .join("");
+        calcFirstNumber = calcDisplay.textContent;
+      } else if (
+        element.textContent === "␈" &&
+        calcOperator &&
+        !(
+          calcDisplay.textContent ==
+            Number(calcSecondNumber) + Number(calcFirstNumber) ||
+          calcDisplay.textContent ==
+            Number(calcFirstNumber) - Number(calcSecondNumber) ||
+          calcDisplay.textContent ==
+            Number(calcSecondNumber) * Number(calcFirstNumber) ||
+          calcDisplay.textContent ==
+            // Operate function() rounds up sum, it will not read the displayed number as similar without round up
+            Math.round(
+              (Number(calcFirstNumber) / Number(calcSecondNumber)) * 1000000
+            ) /
+              1000000
+        )
+      ) {
+        calcDisplay.textContent = calcDisplay.textContent
+          .split("")
+          .slice(0, length - 1)
+          .join("");
+        calcSecondNumber = calcDisplay.textContent;
+      }
+
+      //If there is already value in calcFirstNumber input calcSecondNumber
+      else if (
         //If operator has a value skip inputting data to the first user number
         // and input the value to the second number
         calcOperator &&
