@@ -42,17 +42,45 @@ function inputUserNum() {
       //If there is already value in calcFirstNumber input calcSecondNumber
       if (
         //If operator has a value skip inputting data to the first user number
+        // and input the value to the second number
         calcOperator &&
         (Number(element.textContent) ||
           element.textContent === "0" ||
           element.textContent === "00")
       ) {
-        // if second user number has empty string
+        // if second user number has empty string then input to the second number
         if (calcSecondNumber === "") {
           calcDisplay.textContent = "";
+          calcDisplay.textContent += element.textContent;
+          calcSecondNumber = calcDisplay.textContent;
         }
-        calcDisplay.textContent += element.textContent;
-        calcSecondNumber = calcDisplay.textContent;
+        // If first number and second number sum will be equal to displayed number,
+        // remove all data from display and save the current sum to the first number
+        else if (
+          calcDisplay.textContent ==
+            Number(calcSecondNumber) + Number(calcFirstNumber) ||
+          calcDisplay.textContent ==
+            Number(calcFirstNumber) - Number(calcSecondNumber) ||
+          calcDisplay.textContent ==
+            Number(calcSecondNumber) * Number(calcFirstNumber) ||
+          calcDisplay.textContent ==
+            // Operate function() rounds up sum, it will not read the displayed number as similar without round up
+            Math.round(
+              (Number(calcFirstNumber) / Number(calcSecondNumber)) * 1000000
+            ) /
+              1000000
+        ) {
+          calcDisplay.textContent = "";
+          calcOperator = "";
+          calcFirstNumber = "";
+          calcSecondNumber = "";
+          calcDisplay.textContent += element.textContent;
+          calcFirstNumber = calcDisplay.textContent;
+        } else {
+          //Else just save the value to the second number
+          calcDisplay.textContent += element.textContent;
+          calcSecondNumber = calcDisplay.textContent;
+        }
       } else if (
         // Save the first user number
         Number(element.textContent) ||
