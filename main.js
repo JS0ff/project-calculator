@@ -55,9 +55,7 @@ function inputUserNum() {
         //If operator has a value skip inputting data to the first user number
         // and input the value to the second number
         calcOperator &&
-        (Number(element.textContent) ||
-          element.textContent === "0" ||
-          element.textContent === "00")
+        (Number(element.textContent) || element.textContent === "0")
       ) {
         // if second user number has empty string then input to the second number
         if (calcSecondNumber === "") {
@@ -95,8 +93,7 @@ function inputUserNum() {
       } else if (
         // Save the first user number
         Number(element.textContent) ||
-        element.textContent === "0" ||
-        element.textContent === "00"
+        element.textContent === "0"
       ) {
         calcDisplay.textContent += element.textContent;
         calcFirstNumber = calcDisplay.textContent;
@@ -129,10 +126,7 @@ function inputUserNum() {
       // If the user press "=" display the result
       else if (element.textContent === "=") {
         //Check if the user wants to divide by zero
-        if (
-          calcOperator === "/" &&
-          (calcSecondNumber === "0" || calcSecondNumber === "00")
-        ) {
+        if (calcOperator === "/" && calcSecondNumber === "0") {
           alert("Error! Do not divide by zero");
           calcDisplay.textContent = "";
           calcFirstNumber = "";
