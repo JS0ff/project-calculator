@@ -99,21 +99,40 @@ function calculator() {
           calcFirstNumber,
           calcSecondNumber
         );
+        calcFirstNumber = calcDisplay.textContent;
+        calcSecondNumber = "";
+        calcOperator = "";
       }
       // Input Users data: first number, second number and operator
       if (
         (Number(element.textContent) || element.textContent === "0") &&
-        !operators.includes(element.textContent) &&
         !calcOperator
       ) {
         calcFirstNumber = inputFirstNumber(element);
+      } else if (calcOperator && operators.includes(element.textContent)) {
+        calcDisplay.textContent = operate(
+          calcOperator,
+          calcFirstNumber,
+          calcSecondNumber
+        );
+        calcFirstNumber = calcDisplay.textContent;
+        calcSecondNumber = "";
+        calcOperator = element.textContent;
       } else if (operators.includes(element.textContent)) {
         calcOperator = inputOperator(element);
       } else if (
         (Number(element.textContent) || element.textContent === "0") &&
         calcOperator &&
-        !operators.includes(element.textContent)
+        !checkAllOperation()
       ) {
+        calcSecondNumber = inputSecondNumber(element);
+      } else if (
+        (Number(element.textContent) || element.textContent === "0") &&
+        calcOperator &&
+        checkAllOperation()
+      ) {
+        console.log("here");
+        calcDisplay.textContent = "";
         calcSecondNumber = inputSecondNumber(element);
       }
 
