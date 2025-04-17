@@ -1,16 +1,3 @@
-function add(a, b) {
-  return Math.round((a + b) * 1000) / 1000;
-}
-function subtract(a, b) {
-  return Math.round((a - b) * 1000) / 1000;
-}
-function multiply(a, b) {
-  return Math.round(a * b * 1000) / 1000;
-}
-function divide(a, b) {
-  return Math.round((a / b) * 1000000) / 1000000;
-}
-
 //Save the user's operation input data
 let calcFirstNumber;
 let calcSecondNumber;
@@ -24,13 +11,15 @@ function operate(calcOperator, calcFirstNumber, calcSecondNumber) {
   calcSecondNumber = Number(calcSecondNumber);
   switch (calcOperator) {
     case "+":
-      return add(calcFirstNumber, calcSecondNumber);
+      return Math.round((calcFirstNumber + calcSecondNumber) * 1000) / 1000;
     case "-":
-      return subtract(calcFirstNumber, calcSecondNumber);
+      return Math.round((calcFirstNumber - calcSecondNumber) * 1000) / 1000;
     case "*":
-      return multiply(calcFirstNumber, calcSecondNumber);
+      return Math.round(calcFirstNumber * calcSecondNumber * 1000) / 1000;
     case "/":
-      return divide(calcFirstNumber, calcSecondNumber);
+      return (
+        Math.round((calcFirstNumber / calcSecondNumber) * 1000000) / 1000000
+      );
   }
 }
 
