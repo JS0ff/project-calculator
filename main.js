@@ -69,20 +69,57 @@ const dotBtn = document.querySelector("#dot");
 
 //Create functions for each action
 //Create main function that will create the result
-function inputFirstNumber() {
+function inputFirstNumber(element) {
+  calcDisplay.textContent += element.textContent;
+  return calcDisplay.textContent;
+}
+function inputSecondNumber(element) {
+  calcDisplay.textContent += element.textContent;
+  return calcDisplay.textContent;
+}
+
+function inputOperator(element) {
   calcDisplay.textContent = "";
+  return element.textContent;
+}
+
+// Main function
+function calculator() {
   for (const element of buttons) {
     element.addEventListener("click", function () {
-      if (Number(element.textContent) || element.textContent === "0") {
-        calcDisplay.textContent += element.textContent;
-      } else if (operators.includes(element.textContent)) {
-        return calcDisplay.textContent;
+      //If user hits equal(=) button, show the result
+      if (
+        element.textContent === "=" &&
+        calcFirstNumber &&
+        calcSecondNumber &&
+        calcOperator
+      ) {
+        calcDisplay.textContent = operate(
+          calcOperator,
+          calcFirstNumber,
+          calcSecondNumber
+        );
       }
+      // Input Users data: first number, second number and operator
+      if (
+        (Number(element.textContent) || element.textContent === "0") &&
+        !operators.includes(element.textContent) &&
+        !calcOperator
+      ) {
+        calcFirstNumber = inputFirstNumber(element);
+      } else if (operators.includes(element.textContent)) {
+        calcOperator = inputOperator(element);
+      } else if (
+        (Number(element.textContent) || element.textContent === "0") &&
+        calcOperator &&
+        !operators.includes(element.textContent)
+      ) {
+        calcSecondNumber = inputSecondNumber(element);
+      }
+
+      console.log(calcFirstNumber, calcOperator, calcSecondNumber);
     });
   }
 }
-function inputSecondNumber() {}
-function inputOperation() {}
 
-// Main function
-function calculator() {}
+calculator();
