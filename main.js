@@ -3,7 +3,17 @@ let calcFirstNumber;
 let calcSecondNumber;
 let calcOperator;
 
+let calcDisplay = document.querySelector(".display");
+const buttons = document.querySelectorAll("button");
+const dotBtn = document.querySelector("#dot");
+
 const operators = ["+", "-", "*", "/"];
+const userData = [
+  calcDisplay.textContent,
+  calcFirstNumber,
+  calcSecondNumber,
+  calcOperator,
+];
 
 //Function that takes users data and gives the result based on operator
 function operate(calcOperator, calcFirstNumber, calcSecondNumber) {
@@ -25,18 +35,15 @@ function operate(calcOperator, calcFirstNumber, calcSecondNumber) {
 
 //Clears all data
 function clearUserInputData() {
-  return (
-    (calcDisplay.textContent = ""),
+  (calcDisplay.textContent = ""),
     (calcFirstNumber = ""),
     (calcSecondNumber = ""),
-    (calcOperator = "")
-  );
+    (calcOperator = "");
 }
 
 function checkAllOperation() {
-  if (
-    calcDisplay.textContent ==
-      Number(calcSecondNumber) + Number(calcFirstNumber) ||
+  return calcDisplay.textContent ==
+    Number(calcSecondNumber) + Number(calcFirstNumber) ||
     calcDisplay.textContent ==
       Number(calcFirstNumber) - Number(calcSecondNumber) ||
     calcDisplay.textContent ==
@@ -47,26 +54,18 @@ function checkAllOperation() {
         (Number(calcFirstNumber) / Number(calcSecondNumber)) * 1000000
       ) /
         1000000
-  )
-    return true;
-  else return false;
+    ? true
+    : false;
 }
-
-let calcDisplay = document.querySelector(".display");
-const buttons = document.querySelectorAll("button");
-const dotBtn = document.querySelector("#dot");
 
 //Create functions for each action
 //Create main function that will create the result
 function inputFirstNumber(element) {
-  calcDisplay.textContent += element.textContent;
-  return calcDisplay.textContent;
+  return (calcDisplay.textContent += element.textContent);
 }
 function inputSecondNumber(element) {
-  calcDisplay.textContent += element.textContent;
-  return calcDisplay.textContent;
+  return (calcDisplay.textContent += element.textContent);
 }
-
 function inputOperator(element) {
   calcDisplay.textContent = "";
   return element.textContent;
@@ -124,6 +123,9 @@ function calculator() {
         calcDisplay.textContent = "";
         calcSecondNumber = inputSecondNumber(element);
       }
+
+      // Clear all user data
+      if (element.textContent === "C") clearUserInputData();
 
       console.log(calcFirstNumber, calcOperator, calcSecondNumber);
     });
