@@ -82,7 +82,10 @@ function inputUserNum() {
 
       if (dotsAmount.length === 1)
         dotBtn.removeEventListener("click", function () {});
-      else if (element.textContent === "." && !checkAllOperation())
+      else if (
+        element.textContent === "." ||
+        (calcFirstNumber && element.textContent === ".")
+      )
         calcDisplay.textContent += ".";
 
       // If backspace button clicked, check if which number this is and
@@ -173,7 +176,6 @@ function inputUserNum() {
           alert("Error! Do not divide by zero");
           clearUserInputData();
         } else {
-          console.log(calcFirstNumber, calcOperator, calcSecondNumber);
           calcDisplay.textContent = operate(
             calcOperator,
             calcFirstNumber,
