@@ -103,8 +103,14 @@ function inputNumbKeyboard() {
       calcFirstNumber &&
       calcOperator
     ) {
-      calcDisplay.textContent += e.key;
-      calcSecondNumber = calcDisplay.textContent;
+      if (!checkAllOperation()) {
+        calcDisplay.textContent += e.key;
+        calcSecondNumber = calcDisplay.textContent;
+      } else if (checkAllOperation()) {
+        calcDisplay.textContent = "";
+        calcDisplay.textContent += e.key;
+        calcSecondNumber = calcDisplay.textContent;
+      }
     } else if (e.key === "=") {
       calcDisplay.textContent = operate(
         calcOperator,
