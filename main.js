@@ -24,7 +24,6 @@ function operate(calcOperator, calcFirstNumber, calcSecondNumber) {
       );
   }
 }
-
 //Clears all data
 function clearUserInputData() {
   (calcDisplay.textContent = ""),
@@ -32,11 +31,11 @@ function clearUserInputData() {
     (calcSecondNumber = ""),
     (calcOperator = "");
 }
-
 function checkAllOperation() {
-  return (Math.round(calcDisplay.textContent) * 1000) / 1000 ==
-    (Math.round(Number(calcSecondNumber) + Number(calcFirstNumber)) * 1000) /
-      1000 ||
+  return (
+    (Math.round(calcDisplay.textContent) * 1000) / 1000 ==
+      (Math.round(Number(calcSecondNumber) + Number(calcFirstNumber)) * 1000) /
+        1000 ||
     (Math.round(calcDisplay.textContent) * 1000) / 1000 ==
       Math.round(Number(calcFirstNumber) - Number(calcSecondNumber) * 1000) /
         1000 ||
@@ -49,12 +48,9 @@ function checkAllOperation() {
         (Number(calcFirstNumber) / Number(calcSecondNumber)) * 1000000
       ) /
         1000000
-    ? true
-    : false;
+  );
 }
-
 //Create functions for each action
-//Create main function that will create the result
 function inputFirstNumber(element) {
   return (calcDisplay.textContent += element.textContent);
 }
@@ -65,14 +61,13 @@ function inputOperator(element) {
   calcDisplay.textContent = "";
   return element.textContent;
 }
-
 //Check if number have a dot
 function checkForDot(number) {
   dotsQuantity = 0;
   number
     .split("")
     .reduce((sum, item) => (item === "." ? dotsQuantity++ : dotsQuantity), 0);
-  return dotsQuantity < 1 ? true : false;
+  return dotsQuantity < 1;
 }
 
 //Delete the last element of a number
@@ -98,7 +93,6 @@ function calculator() {
           calcDisplay.textContent = calcSecondNumber;
         }
       }
-
       // Display and type floating point numbers
       if (element.textContent === ".") {
         if (!calcOperator && calcFirstNumber && checkForDot(calcFirstNumber)) {
@@ -112,11 +106,10 @@ function calculator() {
           calcSecondNumber = inputSecondNumber(element);
         }
       }
-
       //Delete the snarky error message
-      if (calcDisplay.textContent === ":< very funny") {
+      if (calcDisplay.textContent === ":< very funny")
         calcDisplay.textContent = "";
-      }
+
       //If user hits equal(=) button, show the result
       if (
         element.textContent === "=" &&
@@ -125,7 +118,6 @@ function calculator() {
         calcOperator
       ) {
         //Display error message if divided by 0
-
         if (calcSecondNumber === "0" && calcOperator === "/") {
           calcDisplay.textContent = ":< very funny";
         } else {
@@ -188,7 +180,6 @@ function calculator() {
 
       // Clear all user data if element is equal to "C"
       if (element.textContent === "C") clearUserInputData();
-
       console.log(calcFirstNumber, calcOperator, calcSecondNumber);
     });
   }
