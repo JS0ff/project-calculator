@@ -1,13 +1,11 @@
 //Save the user's operation input data
-let calcFirstNumber;
-let calcSecondNumber;
-let calcOperator;
-
 let calcDisplay = document.querySelector(".display");
 const buttons = document.querySelectorAll("button");
 const dotBtn = document.querySelector("#dot");
-
 const operators = ["+", "-", "*", "/"];
+let calcFirstNumber;
+let calcSecondNumber;
+let calcOperator;
 
 //Function that takes users data and gives the result based on operator
 function operate(calcOperator, calcFirstNumber, calcSecondNumber) {
@@ -36,14 +34,17 @@ function clearUserInputData() {
 }
 
 function checkAllOperation() {
-  return calcDisplay.textContent ==
-    Number(calcSecondNumber) + Number(calcFirstNumber) ||
-    calcDisplay.textContent ==
-      Number(calcFirstNumber) - Number(calcSecondNumber) ||
-    calcDisplay.textContent ==
-      Number(calcSecondNumber) * Number(calcFirstNumber) ||
-    calcDisplay.textContent ==
-      // Operate function() rounds up sum, it will not read the displayed number as similar without round up
+  return (Math.round(calcDisplay.textContent) * 1000) / 1000 ==
+    (Math.round(Number(calcSecondNumber) + Number(calcFirstNumber)) * 1000) /
+      1000 ||
+    (Math.round(calcDisplay.textContent) * 1000) / 1000 ==
+      Math.round(Number(calcFirstNumber) - Number(calcSecondNumber) * 1000) /
+        1000 ||
+    (Math.round(calcDisplay.textContent) * 1000) / 1000 ==
+      Math.round(Number(calcSecondNumber) * Number(calcFirstNumber) * 1000) /
+        1000 ||
+    // Operate function() rounds up sum, it will not read the displayed number as similar without round up
+    (Math.round(calcDisplay.textContent) * 1000000) / 1000000 ==
       Math.round(
         (Number(calcFirstNumber) / Number(calcSecondNumber)) * 1000000
       ) /
@@ -67,13 +68,19 @@ function inputOperator(element) {
 
 //Check if number have a dot
 function checkForDot(number) {
-  let numberArr = number.split("");
   dotsQuantity = 0;
-  numberArr.reduce(
-    (sum, item) => (item === "." ? dotsQuantity++ : dotsQuantity),
-    0
-  );
+  number
+    .split("")
+    .reduce((sum, item) => (item === "." ? dotsQuantity++ : dotsQuantity), 0);
   return dotsQuantity < 1 ? true : false;
+}
+
+//Delete the last element of a number
+function deleteLastElNumb(number) {
+  return number
+    .split("")
+    .slice(0, length - 1)
+    .join("");
 }
 
 // Main function
@@ -81,10 +88,20 @@ function calculator() {
   sumOfDots = 0;
   for (const element of buttons) {
     element.addEventListener("click", function () {
+      // Create BackSpace button
+      if (element.textContent === "␈") {
+        if (calcFirstNumber && !calcOperator) {
+          calcFirstNumber = deleteLastElNumb(calcFirstNumber);
+          calcDisplay.textContent = calcFirstNumber;
+        } else if (calcSecondNumber && calcOperator && !checkAllOperation()) {
+          calcSecondNumber = deleteLastElNumb(calcSecondNumber);
+          calcDisplay.textContent = calcSecondNumber;
+        }
+      }
+
       // Display and type floating point numbers
       if (element.textContent === ".") {
         if (!calcOperator && calcFirstNumber && checkForDot(calcFirstNumber)) {
-          console.log("Here in the first number");
           calcFirstNumber = inputFirstNumber(element);
         } else if (
           calcOperator &&
@@ -92,7 +109,6 @@ function calculator() {
           !checkAllOperation() &&
           checkForDot(calcSecondNumber)
         ) {
-          console.log("Here in the second number");
           calcSecondNumber = inputSecondNumber(element);
         }
       }
@@ -167,14 +183,13 @@ function calculator() {
           calcSecondNumber = "";
           calcOperator = element.textContent;
         }
-      } else if (operators.includes(element.textContent))
+      } else if (calcFirstNumber && operators.includes(element.textContent))
         calcOperator = inputOperator(element);
 
       // Clear all user data if element is equal to "C"
       if (element.textContent === "C") clearUserInputData();
 
       console.log(calcFirstNumber, calcOperator, calcSecondNumber);
-      console.log("sum of dots: " + sumOfDots);
     });
   }
 }
