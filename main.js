@@ -8,12 +8,6 @@ const buttons = document.querySelectorAll("button");
 const dotBtn = document.querySelector("#dot");
 
 const operators = ["+", "-", "*", "/"];
-const userData = [
-  calcDisplay.textContent,
-  calcFirstNumber,
-  calcSecondNumber,
-  calcOperator,
-];
 
 //Function that takes users data and gives the result based on operator
 function operate(calcOperator, calcFirstNumber, calcSecondNumber) {
@@ -87,12 +81,28 @@ function calculator() {
           calcFirstNumber,
           calcSecondNumber
         );
-        calcFirstNumber = calcDisplay.textContent;
-        calcSecondNumber = "";
-        calcOperator = "";
       }
       // Input Users data: first number, second number and operator
       if (
+        (Number(element.textContent) || element.textContent === "0") &&
+        calcOperator
+      ) {
+        if (!calcSecondNumber) {
+          calcDisplay.textContent = "";
+          calcDisplay.textContent += element.textContent;
+          calcSecondNumber = calcDisplay.textContent;
+        } else if (
+          calcOperator &&
+          (Number(element.textContent) || element.textContent == "0") &&
+          !checkAllOperation()
+        ) {
+          calcSecondNumber = inputSecondNumber(element);
+        } else if (checkAllOperation()) {
+          clearUserInputData();
+          calcDisplay.textContent += element.textContent;
+          calcFirstNumber = calcDisplay.textContent;
+        }
+      } else if (
         (Number(element.textContent) || element.textContent === "0") &&
         !calcOperator
       ) {
@@ -108,23 +118,8 @@ function calculator() {
         calcOperator = element.textContent;
       } else if (operators.includes(element.textContent)) {
         calcOperator = inputOperator(element);
-      } else if (
-        (Number(element.textContent) || element.textContent === "0") &&
-        calcOperator &&
-        !checkAllOperation()
-      ) {
-        calcSecondNumber = inputSecondNumber(element);
-      } else if (
-        (Number(element.textContent) || element.textContent === "0") &&
-        calcOperator &&
-        checkAllOperation()
-      ) {
-        console.log("here");
-        calcDisplay.textContent = "";
-        calcSecondNumber = inputSecondNumber(element);
       }
-
-      // Clear all user data
+      // Clear all user data if element is equal to "C"
       if (element.textContent === "C") clearUserInputData();
 
       console.log(calcFirstNumber, calcOperator, calcSecondNumber);
