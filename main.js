@@ -112,14 +112,18 @@ function inputNumbKeyboard() {
         calcSecondNumber = calcDisplay.textContent;
       }
     } else if (e.key === "=") {
-      calcDisplay.textContent = operate(
-        calcOperator,
-        calcFirstNumber,
-        calcSecondNumber
-      );
-      calcFirstNumber = calcDisplay.textContent;
-      calcSecondNumber = "";
-      calcOperator = "";
+      if (calcFirstNumber && calcSecondNumber && calcOperator) {
+        calcDisplay.textContent = operate(
+          calcOperator,
+          calcFirstNumber,
+          calcSecondNumber
+        );
+        calcFirstNumber = calcDisplay.textContent;
+        calcSecondNumber = "";
+        calcOperator = "";
+      } else if (!calcSecondNumber) {
+        calcDisplay.textContent = calcFirstNumber;
+      }
     }
     console.log(calcFirstNumber, calcOperator, calcSecondNumber);
   });
