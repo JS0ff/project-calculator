@@ -78,6 +78,48 @@ function deleteLastElNumb(number) {
     .join("");
 }
 
+//Create function for keyboard support
+const keys = document.querySelectorAll(".key");
+
+function inputNumbKeyboard() {
+  window.addEventListener("keydown", function (e) {
+    if ((Number(e.key) || e.key === "0") && !calcOperator) {
+      calcDisplay.textContent += e.key;
+      calcFirstNumber = calcDisplay.textContent;
+    } else if (operators.includes(e.key) && calcOperator) {
+      calcDisplay.textContent = operate(
+        calcOperator,
+        calcFirstNumber,
+        calcSecondNumber
+      );
+      calcOperator = e.key;
+      calcFirstNumber = calcDisplay.textContent;
+      calcSecondNumber = "";
+    } else if (operators.includes(e.key)) {
+      calcDisplay.textContent = "";
+      calcOperator = e.key;
+    } else if (
+      (Number(e.key) || e.key === "0") &&
+      calcFirstNumber &&
+      calcOperator
+    ) {
+      calcDisplay.textContent += e.key;
+      calcSecondNumber = calcDisplay.textContent;
+    } else if (e.key === "=") {
+      calcDisplay.textContent = operate(
+        calcOperator,
+        calcFirstNumber,
+        calcSecondNumber
+      );
+      calcFirstNumber = calcDisplay.textContent;
+      calcSecondNumber = "";
+      calcOperator = "";
+    }
+    console.log(calcFirstNumber, calcOperator, calcSecondNumber);
+  });
+}
+inputNumbKeyboard();
+
 // Main function
 function calculator() {
   sumOfDots = 0;
@@ -184,5 +226,11 @@ function calculator() {
     });
   }
 }
+// window.addEventListener("keydown", function (e) {
+//   const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
+//   if (Number(key.textContent)) {
+//     calcDisplay.textContent += key.textContent;
+//   }
+// });
 
 calculator();
