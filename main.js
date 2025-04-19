@@ -69,6 +69,10 @@ function inputOperator(element) {
 function calculator() {
   for (const element of buttons) {
     element.addEventListener("click", function () {
+      //Delete the snarky error message
+      if (calcDisplay.textContent === ":< very funny") {
+        calcDisplay.textContent = "";
+      }
       //If user hits equal(=) button, show the result
       if (
         element.textContent === "=" &&
@@ -76,11 +80,17 @@ function calculator() {
         calcSecondNumber &&
         calcOperator
       ) {
-        calcDisplay.textContent = operate(
-          calcOperator,
-          calcFirstNumber,
-          calcSecondNumber
-        );
+        //Display error message if divided by 0
+
+        if (calcSecondNumber === "0" && calcOperator === "/") {
+          calcDisplay.textContent = ":< very funny";
+        } else {
+          calcDisplay.textContent = operate(
+            calcOperator,
+            calcFirstNumber,
+            calcSecondNumber
+          );
+        }
       }
       // Input Users data: first number, second number and operator
       if (
