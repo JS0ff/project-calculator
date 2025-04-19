@@ -124,6 +124,8 @@ function inputNumbKeyboard() {
       } else if (!calcSecondNumber) {
         calcDisplay.textContent = calcFirstNumber;
       }
+    } else if (e.key === "Backspace") {
+      clearUserInputData();
     }
     console.log(calcFirstNumber, calcOperator, calcSecondNumber);
   });
