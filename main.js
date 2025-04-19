@@ -65,10 +65,38 @@ function inputOperator(element) {
   return element.textContent;
 }
 
+//Check if number have a dot
+function checkForDot(number) {
+  let numberArr = number.split("");
+  dotsQuantity = 0;
+  numberArr.reduce(
+    (sum, item) => (item === "." ? dotsQuantity++ : dotsQuantity),
+    0
+  );
+  return dotsQuantity < 1 ? true : false;
+}
+
 // Main function
 function calculator() {
+  sumOfDots = 0;
   for (const element of buttons) {
     element.addEventListener("click", function () {
+      // Display and type floating point numbers
+      if (element.textContent === ".") {
+        if (!calcOperator && calcFirstNumber && checkForDot(calcFirstNumber)) {
+          console.log("Here in the first number");
+          calcFirstNumber = inputFirstNumber(element);
+        } else if (
+          calcOperator &&
+          calcSecondNumber &&
+          !checkAllOperation() &&
+          checkForDot(calcSecondNumber)
+        ) {
+          console.log("Here in the second number");
+          calcSecondNumber = inputSecondNumber(element);
+        }
+      }
+
       //Delete the snarky error message
       if (calcDisplay.textContent === ":< very funny") {
         calcDisplay.textContent = "";
@@ -139,13 +167,14 @@ function calculator() {
           calcSecondNumber = "";
           calcOperator = element.textContent;
         }
-      } else if (operators.includes(element.textContent)) {
+      } else if (operators.includes(element.textContent))
         calcOperator = inputOperator(element);
-      }
+
       // Clear all user data if element is equal to "C"
       if (element.textContent === "C") clearUserInputData();
 
       console.log(calcFirstNumber, calcOperator, calcSecondNumber);
+      console.log("sum of dots: " + sumOfDots);
     });
   }
 }
