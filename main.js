@@ -118,14 +118,27 @@ function calculator() {
       ) {
         calcFirstNumber = inputFirstNumber(element);
       } else if (calcOperator && operators.includes(element.textContent)) {
-        calcDisplay.textContent = operate(
-          calcOperator,
-          calcFirstNumber,
-          calcSecondNumber
-        );
-        calcFirstNumber = calcDisplay.textContent;
-        calcSecondNumber = "";
-        calcOperator = element.textContent;
+        if (calcSecondNumber) {
+          calcDisplay.textContent = operate(
+            calcOperator,
+            calcFirstNumber,
+            calcSecondNumber
+          );
+          calcFirstNumber = calcDisplay.textContent;
+          calcSecondNumber = "";
+          calcOperator = element.textContent;
+        } else {
+          //If user will not give two numbers evaluate first number
+          calcSecondNumber = 0;
+          calcDisplay.textContent = operate(
+            calcOperator,
+            calcFirstNumber,
+            calcSecondNumber
+          );
+          calcFirstNumber = calcDisplay.textContent;
+          calcSecondNumber = "";
+          calcOperator = element.textContent;
+        }
       } else if (operators.includes(element.textContent)) {
         calcOperator = inputOperator(element);
       }
