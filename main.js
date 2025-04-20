@@ -83,36 +83,67 @@ const keys = document.querySelectorAll(".key");
 
 function inputNumbKeyboard() {
   window.addEventListener("keydown", function (e) {
-    if ((Number(e.key) || e.key === "0") && !calcOperator) {
-      calcDisplay.textContent += e.key;
-      calcFirstNumber = calcDisplay.textContent;
-    } else if (operators.includes(e.key) && calcOperator) {
-      calcDisplay.textContent = operate(
-        calcOperator,
-        calcFirstNumber,
-        calcSecondNumber
-      );
-      calcOperator = e.key;
-      calcFirstNumber = calcDisplay.textContent;
-      calcSecondNumber = "";
-    } else if (operators.includes(e.key)) {
-      calcDisplay.textContent = "";
-      calcOperator = e.key;
-    } else if (
-      (Number(e.key) || e.key === "0") &&
-      calcFirstNumber &&
-      calcOperator
-    ) {
-      if (!checkAllOperation()) {
+    // In keyboard backspace is to delete all data
+    if (e.key === "Backspace") {
+      clearUserInputData();
+    }
+
+    // Display and type floating point numbers
+    if (e.key === ".") {
+      if (!calcOperator && calcFirstNumber && checkForDot(calcFirstNumber)) {
         calcDisplay.textContent += e.key;
-        calcSecondNumber = calcDisplay.textContent;
-      } else if (checkAllOperation()) {
-        calcDisplay.textContent = "";
+        calcFirstNumber = calcDisplay.textContent;
+      } else if (
+        calcOperator &&
+        calcSecondNumber &&
+        !checkAllOperation() &&
+        checkForDot(calcSecondNumber)
+      ) {
         calcDisplay.textContent += e.key;
         calcSecondNumber = calcDisplay.textContent;
       }
-    } else if (e.key === "=") {
-      if (calcFirstNumber && calcSecondNumber && calcOperator) {
+    }
+
+    //Delete the snarky error message
+    if (calcDisplay.textContent === ":< very funny")
+      calcDisplay.textContent = "";
+
+    //If user hits equal(=) button, show the result
+    if (e.key === "=" && calcFirstNumber && calcSecondNumber && calcOperator) {
+      //Display error message if divided by 0
+      if (calcSecondNumber === "0" && calcOperator === "/") {
+        calcDisplay.textContent = ":< very funny";
+      } else {
+        calcDisplay.textContent = operate(
+          calcOperator,
+          calcFirstNumber,
+          calcSecondNumber
+        );
+      }
+    }
+    // Input Users data: first number, second number and operator
+    if ((Number(e.key) || e.key === "0") && calcOperator) {
+      if (!calcSecondNumber) {
+        calcDisplay.textContent = "";
+        calcDisplay.textContent += e.key;
+        calcSecondNumber = calcDisplay.textContent;
+      } else if (
+        calcOperator &&
+        (Number(e.key) || e.key == "0") &&
+        !checkAllOperation()
+      ) {
+        calcDisplay.textContent += e.key;
+        calcSecondNumber = calcDisplay.textContent;
+      } else if (checkAllOperation()) {
+        clearUserInputData();
+        calcDisplay.textContent += e.key;
+        calcFirstNumber = calcDisplay.textContent;
+      }
+    } else if ((Number(e.key) || e.key === "0") && !calcOperator) {
+      calcDisplay.textContent += e.key;
+      calcFirstNumber = calcDisplay.textContent;
+    } else if (calcOperator && operators.includes(e.key)) {
+      if (calcSecondNumber) {
         calcDisplay.textContent = operate(
           calcOperator,
           calcFirstNumber,
@@ -120,12 +151,22 @@ function inputNumbKeyboard() {
         );
         calcFirstNumber = calcDisplay.textContent;
         calcSecondNumber = "";
-        calcOperator = "";
-      } else if (!calcSecondNumber) {
-        calcDisplay.textContent = calcFirstNumber;
+        calcOperator = e.key;
+      } else {
+        //If user will not give two numbers evaluate first number
+        calcSecondNumber = 0;
+        calcDisplay.textContent = operate(
+          calcOperator,
+          calcFirstNumber,
+          calcSecondNumber
+        );
+        calcFirstNumber = calcDisplay.textContent;
+        calcSecondNumber = "";
+        calcOperator = e.key;
       }
-    } else if (e.key === "Backspace") {
-      clearUserInputData();
+    } else if (calcFirstNumber && operators.includes(e.key)) {
+      calcDisplay.textContent = "";
+      calcOperator = e.key;
     }
     console.log(calcFirstNumber, calcOperator, calcSecondNumber);
   });
@@ -238,11 +279,5 @@ function calculator() {
     });
   }
 }
-// window.addEventListener("keydown", function (e) {
-//   const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);
-//   if (Number(key.textContent)) {
-//     calcDisplay.textContent += key.textContent;
-//   }
-// });
 
 calculator();
